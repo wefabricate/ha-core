@@ -1,0 +1,24 @@
+# serializer version: 1
+# name: test_diagnostics_config_entry
+  dict({
+    '0000-1111-2222-3333': dict({
+      'heat_pump_data': dict({
+        'dummy': 'test',
+      }),
+      'heat_pump_info': dict({
+        'has_dhw': True,
+        'model': 'Test Model',
+        'name': None,
+        'sn': 'SN-Test-This',
+        'uuid': '0000-1111-2222-3333',
+      }),
+      'session_token': dict({
+        'access_token': '**REDACTED**',
+        'expires_in': 60,
+        'refresh_token': '**REDACTED**',
+        'type': 'Bearer',
+      }),
+      'session_valid': True,
+    }),
+  })
+# ---
