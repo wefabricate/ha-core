@@ -20,52 +20,30 @@ from homeassistant.helpers.config_entry_oauth2_flow import (
 
 from .const import API_URL, LOGGER
 from .coordinator import WeheatDataUpdateCoordinator, WeheatEnergyUpdateCoordinator
+from dataclasses import dataclass
 
 PLATFORMS: list[Platform] = [Platform.BINARY_SENSOR, Platform.SENSOR]
 
 type WeheatConfigEntry = ConfigEntry[list[WeheatDataUpdateCoordinator, WeheatEnergyUpdateCoordinator]]
 
-class HeatPumpInfo:
-    """Heat pump info."""
-
-    def __init__(
-        self,
-        heat_pump: HeatPumpDiscovery.HeatPumpInfo
-    ) -> None:
-        """Initialize the data coordinator."""
-        self.heat_pump = heat_pump
-
-    @property
-    def heatpump_id(self) -> str:
-        """Return the heat pump id."""
-        return self.heat_pump.uuid
+class HeatPumpInfo(HeatPumpDiscovery.HeatPumpInfo):
+    """Heat pump info with additional properties."""
 
     @property
     def readable_name(self) -> str | None:
         """Return the readable name of the heat pump."""
-        if self.heat_pump.name:
-            return self.heat_pump.name
-        return self.heat_pump.model
-
-    @property
-    def model(self) -> str:
-        """Return the model of the heat pump."""
-        return self.heat_pump.model
+        if self.name:
+            return self.name
+        return self.model
 
 
+@dataclass
 class WeheatData:
     """Data for the Weheat integration."""
-
-    def __init__(
-        self,
-        heat_pump_info: HeatPumpInfo,
-        data_coordinator: WeheatDataUpdateCoordinator,
-        energy_coordinator: WeheatEnergyUpdateCoordinator,
-    ) -> None:
-        """Initialize the WeheatData instance."""
-        self.heat_pump_info = heat_pump_info
-        self.data_coordinator = data_coordinator
-        self.energy_coordinator = energy_coordinator
+    
+    heat_pump_info: HeatPumpInfo
+    data_coordinator: WeheatDataUpdateCoordinator
+    energy_coordinator: WeheatEnergyUpdateCoordinator
 
 
 
