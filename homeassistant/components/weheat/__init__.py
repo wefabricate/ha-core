@@ -29,18 +29,24 @@ type WeheatConfigEntry = ConfigEntry[list[WeheatDataUpdateCoordinator, WeheatEne
 class HeatPumpInfo(HeatPumpDiscovery.HeatPumpInfo):
     """Heat pump info with additional properties."""
 
+    def __init__(self, pump_info: HeatPumpDiscovery.HeatPumpInfo):
+        super().__init__(pump_info.uuid, pump_info.name, pump_info.model, pump_info.sn, pump_info.has_dhw)
+
     @property
     def readable_name(self) -> str | None:
         """Return the readable name of the heat pump."""
-        if self.name:
-            return self.name
-        return self.model
+        return self.name if self.name else self.model
+
+    @property
+    def heatpump_id(self) -> str:
+        """Return the heat pump id."""
+        return self.uuid
 
 
 @dataclass
 class WeheatData:
     """Data for the Weheat integration."""
-    
+
     heat_pump_info: HeatPumpInfo
     data_coordinator: WeheatDataUpdateCoordinator
     energy_coordinator: WeheatEnergyUpdateCoordinator

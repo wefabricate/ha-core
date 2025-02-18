@@ -17,7 +17,7 @@ API_URL = "https://api.weheat.nl"
 OAUTH2_SCOPES = ["openid", "offline_access"]
 
 
-LOG_UPDATE_INTERVAL = 120
+LOG_UPDATE_INTERVAL = 60
 ENERGY_UPDATE_INTERVAL = 900
 
 LOGGER: Logger = getLogger(__package__)

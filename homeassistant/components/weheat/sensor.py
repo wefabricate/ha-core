@@ -213,7 +213,7 @@ async def async_setup_entry(
             WeheatHeatPumpSensor(weheatdata.heat_pump_info, weheatdata.data_coordinator, entity_description)
             for entity_description in SENSORS
         )
-        if weheatdata.heat_pump_info.heat_pump.has_dhw:
+        if weheatdata.heat_pump_info.has_dhw:
             entities.extend(
             WeheatHeatPumpSensor(weheatdata.heat_pump_info, weheatdata.data_coordinator, entity_description)
             for entity_description in DHW_SENSORS

@@ -11,6 +11,7 @@ from weheat.exceptions import (
     NotFoundException,
     ServiceException,
     UnauthorizedException,
+    TooManyRequestsException
 )
 
 from homeassistant.const import CONF_ACCESS_TOKEN
@@ -28,6 +29,7 @@ EXCEPTIONS = (
     ForbiddenException,
     BadRequestException,
     ApiException,
+    TooManyRequestsException,
 )
 
 
@@ -46,7 +48,7 @@ class WeheatDataUpdateCoordinator(DataUpdateCoordinator[HeatPump]):
             hass,
             logger=LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(seconds=LOG_UPDATE_INTERVAL) * nr_of_heat_pumps,
+            update_interval=timedelta(seconds=LOG_UPDATE_INTERVAL * nr_of_heat_pumps),
         )
         self._heat_pump_data = HeatPump(
             API_URL, heat_pump.uuid, async_get_clientsession(hass)
@@ -60,7 +62,7 @@ class WeheatDataUpdateCoordinator(DataUpdateCoordinator[HeatPump]):
         await self.session.async_ensure_token_valid()
 
         try:
-            await self._heat_pump_data.async_get_status(
+            await self._heat_pump_data.async_get_logs(
                 self.session.token[CONF_ACCESS_TOKEN]
             )
         except UnauthorizedException as error:
