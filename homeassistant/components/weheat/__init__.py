@@ -30,12 +30,12 @@ class HeatPumpInfo(HeatPumpDiscovery.HeatPumpInfo):
     """Heat pump info with additional properties."""
 
     def __init__(self, pump_info: HeatPumpDiscovery.HeatPumpInfo):
-        super().__init__(pump_info.uuid, pump_info.name, pump_info.model, pump_info.sn, pump_info.has_dhw)
+        super().__init__(pump_info.uuid, pump_info.device_name, pump_info.model, pump_info.sn, pump_info.has_dhw)
 
     @property
     def readable_name(self) -> str | None:
         """Return the readable name of the heat pump."""
-        return self.name if self.name else self.model
+        return self.device_name if self.device_name else self.model
 
     @property
     def heatpump_id(self) -> str:
