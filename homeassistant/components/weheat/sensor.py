@@ -41,6 +41,7 @@ class WeHeatSensorEntityDescription(SensorEntityDescription):
     """Describes Weheat sensor entity."""
 
     value_fn: Callable[[HeatPump], StateType]
+    entity_registry_enabled_default: bool = True
 
 
 SENSORS = [
@@ -212,15 +213,18 @@ async def async_setup_entry(
         entities.extend(
             WeheatHeatPumpSensor(weheatdata.heat_pump_info, weheatdata.data_coordinator, entity_description)
             for entity_description in SENSORS
+            if entity_description.value_fn(weheatdata.data_coordinator.data) is not None
         )
         if weheatdata.heat_pump_info.has_dhw:
             entities.extend(
             WeheatHeatPumpSensor(weheatdata.heat_pump_info, weheatdata.data_coordinator, entity_description)
             for entity_description in DHW_SENSORS
+            if entity_description.value_fn(weheatdata.data_coordinator.data) is not None
             )
         entities.extend(
             WeheatHeatPumpSensor(weheatdata.heat_pump_info, weheatdata.energy_coordinator, entity_description)
             for entity_description in ENERGY_SENSORS
+            if entity_description.value_fn(weheatdata.energy_coordinator.data) is not None
         )
 
     async_add_entities(entities)
@@ -244,6 +248,7 @@ class WeheatHeatPumpSensor(WeheatEntity, SensorEntity):
         self.coordinator = coordinator
         self.entity_description = entity_description
 
+        self._attr_translation_key = entity_description.translation_key
         self._attr_unique_id = f"{heat_pump_info.heatpump_id}_{entity_description.key}"
 
     @property

@@ -28,6 +28,7 @@ class WeHeatBinarySensorEntityDescription(BinarySensorEntityDescription):
     """Describes Weheat binary sensor entity."""
 
     value_fn: Callable[[HeatPump], StateType]
+    entity_registry_enabled_default: bool = True
 
 
 BINARY_SENSORS = [
@@ -99,6 +100,7 @@ class WeheatHeatPumpBinarySensor(WeheatEntity, BinarySensorEntity):
         self.coordinator = coordinator
         self.entity_description = entity_description
 
+        self._attr_translation_key = entity_description.translation_key
         self._attr_unique_id = f"{heat_pump_info.heatpump_id}_{entity_description.key}"
 
     @property
