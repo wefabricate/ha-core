@@ -41,7 +41,6 @@ class WeHeatSensorEntityDescription(SensorEntityDescription):
     """Describes Weheat sensor entity."""
 
     value_fn: Callable[[HeatPump], StateType]
-    entity_registry_enabled_default: bool = True
 
 
 SENSORS = [

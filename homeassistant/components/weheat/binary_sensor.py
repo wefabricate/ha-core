@@ -28,7 +28,6 @@ class WeHeatBinarySensorEntityDescription(BinarySensorEntityDescription):
     """Describes Weheat binary sensor entity."""
 
     value_fn: Callable[[HeatPump], StateType]
-    entity_registry_enabled_default: bool = True
 
 
 BINARY_SENSORS = [
