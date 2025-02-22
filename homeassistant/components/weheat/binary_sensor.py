@@ -96,11 +96,9 @@ class WeheatHeatPumpBinarySensor(WeheatEntity, BinarySensorEntity):
         entity_description: WeHeatBinarySensorEntityDescription,
     ) -> None:
         """Pass coordinator to CoordinatorEntity."""
-        super().__init__(heat_pump_info)
-        self.coordinator = coordinator
+        super().__init__(heat_pump_info, coordinator)
         self.entity_description = entity_description
 
-        self._attr_translation_key = entity_description.translation_key
         self._attr_unique_id = f"{heat_pump_info.heatpump_id}_{entity_description.key}"
 
     @property
