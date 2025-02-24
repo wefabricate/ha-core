@@ -18,7 +18,7 @@ OAUTH2_SCOPES = ["openid", "offline_access"]
 
 
 LOG_UPDATE_INTERVAL = 120
-ENERGY_UPDATE_INTERVAL = 900
+ENERGY_UPDATE_INTERVAL = 1800
 
 LOGGER: Logger = getLogger(__package__)
 
